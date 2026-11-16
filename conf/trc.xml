@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+  Expected results. Every iteration not listed here is expected to pass
+  (unknown_exp_status="passed_ok").
+
+  The listed ones are the iterations of assert_violation: each breaks
+  one property of a database on purpose and must FAIL with the verdict
+  of the assertion that guards that property. They are the controls of
+  the assertions - a run reports them as "failed, as expected". If an
+  assertion stops noticing its violation the verdict changes and the
+  run reports the iteration as unexpected.
+-->
+<trc_db unknown_exp_status="passed_ok">
+  <test name="tsf-sql-ts" type="package">
+    <objective>tsf-sql test suite</objective>
+    <notes />
+    <iter result="PASSED">
+      <notes />
+      <test name="sql" type="package">
+        <objective>SQL databases</objective>
+        <notes />
+        <iter result="PASSED">
+          <notes />
+          <test name="assert_violation" type="script">
+            <objective>Each database assertion fails, with its verdict, on a broken property.</objective>
+            <notes />
+            <iter result="FAILED">
+              <arg name="backend">sqlite</arg>
+              <arg name="property">row_count</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>unexpected number of rows in t_av</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">sqlite</arg>
+              <arg name="property">pk_unique</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>key (id) of t_av is not unique</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">sqlite</arg>
+              <arg name="property">referential</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>t_av_child (parent_id) refers to rows missing from t_av</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">sqlite</arg>
+              <arg name="property">not_null</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>NULL in (name) of t_av</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">sqlite</arg>
+              <arg name="property">schema</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>schema of t_av is not compatible</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">sqlite</arg>
+              <arg name="property">equal</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>the query result differs from what is expected</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">sqlite</arg>
+              <arg name="property">number</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>a number is outside its tolerance</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">sqlite</arg>
+              <arg name="property">atomic</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>the failing transaction did not fail</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">postgres</arg>
+              <arg name="property">row_count</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>unexpected number of rows in t_av</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">postgres</arg>
+              <arg name="property">pk_unique</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>key (id) of t_av is not unique</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">postgres</arg>
+              <arg name="property">referential</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>t_av_child (parent_id) refers to rows missing from t_av</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">postgres</arg>
+              <arg name="property">not_null</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>NULL in (name) of t_av</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">postgres</arg>
+              <arg name="property">schema</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>schema of t_av is not compatible</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">postgres</arg>
+              <arg name="property">equal</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>the query result differs from what is expected</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">postgres</arg>
+              <arg name="property">number</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>a number is outside its tolerance</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">postgres</arg>
+              <arg name="property">atomic</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>the failing transaction did not fail</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">mariadb</arg>
+              <arg name="property">row_count</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>unexpected number of rows in t_av</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">mariadb</arg>
+              <arg name="property">pk_unique</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>key (id) of t_av is not unique</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">mariadb</arg>
+              <arg name="property">referential</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>t_av_child (parent_id) refers to rows missing from t_av</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">mariadb</arg>
+              <arg name="property">not_null</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>NULL in (name) of t_av</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">mariadb</arg>
+              <arg name="property">schema</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>schema of t_av is not compatible</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">mariadb</arg>
+              <arg name="property">equal</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>the query result differs from what is expected</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">mariadb</arg>
+              <arg name="property">number</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>a number is outside its tolerance</verdict>
+                </result>
+              </results>
+            </iter>
+            <iter result="FAILED">
+              <arg name="backend">mariadb</arg>
+              <arg name="property">atomic</arg>
+              <notes>Control: the property is broken on purpose.</notes>
+              <results>
+                <result value="FAILED">
+                  <verdict>the failing transaction did not fail</verdict>
+                </result>
+              </results>
+            </iter>
+          </test>
+        </iter>
+      </test>
+    </iter>
+  </test>
+</trc_db>

@@ -1,0 +1,91 @@
+name: ci
+
+# lint (every push and pull request, about a minute): scripts/lint.sh -
+# layout, licence headers, XML, shellcheck, actionlint, and
+# scripts/lint_suite.py, which checks that the tests, the meson lists,
+# package.xml, the expected results in conf/trc.xml and the README agree.
+# The suite cannot be compiled without the Test Environment and its
+# external repository, so this is what runs on every change.
+#
+# integration (manual, and weekly): the real build and run. It builds the
+# Docker image (TE's dependencies, libsqlite3, libpq, MariaDB
+# Connector/C, a docker client), clones Test Environment beside the
+# suite, builds everything and runs the suite on the localhost
+# configuration. The prologue starts PostgreSQL and MariaDB containers
+# on the runner's Docker, so all three engines are tested. run.sh exits
+# 0 whenever the run completes, so scripts/check-run.sh turns the
+# Tester's summary into the verdict: every iteration passed or failed
+# as conf/trc.xml expects. Weekly, because Test Environment and the
+# database images change independently.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 3 * * 1'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  ACTIONLINT_VERSION: 1.7.12
+  ACTIONLINT_SHA256: 8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8
+
+jobs:
+  lint:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install the linters
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            libxml2-utils python3 shellcheck
+          tarball="actionlint_${ACTIONLINT_VERSION}_linux_amd64.tar.gz"
+          curl -fsSL -o "/tmp/${tarball}" \
+            "https://github.com/rhysd/actionlint/releases/download/v${ACTIONLINT_VERSION}/${tarball}"
+          echo "${ACTIONLINT_SHA256}  /tmp/${tarball}" | sha256sum -c -
+          sudo tar -xzf "/tmp/${tarball}" -C /usr/local/bin actionlint
+
+      - name: Lint
+        run: scripts/lint.sh
+
+  integration:
+    needs: lint
+    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 150
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Clone Test Environment beside the suite
+        run: |
+          git clone --depth 1 \
+            https://github.com/interpretica-io/test-environment ../test-environment
+
+      - name: Build the image and run the suite (Docker)
+        run: ./scripts/run.sh docker guess --cfg=localhost 2>&1 | tee run.out
+
+      - name: Check the results against conf/trc.xml
+        run: scripts/check-run.sh run.out
+
+      - name: Keep the logs
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: tsf-sql-ts-logs
+          path: |
+            run.out
+            log.txt
+            tmp_raw_log
+            builder.log.*
+          if-no-files-found: warn
+          retention-days: 14

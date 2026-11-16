@@ -1,0 +1,58 @@
+<?xml version="1.0" ?>
+<package version="1.0">
+    <description>tsf-sql test suite</description>
+
+    <!-- @page sql-ts SQL Database Suite
+          @objective Exercise tsf-sql against PostgreSQL, SQLite and
+                     MariaDB: one test matrix, every test once per
+                     engine.
+
+          @par Notes:
+          - The database client runs on the agent, in its RPC server,
+            linked not spawned. The prologue starts a PostgreSQL and a
+            MariaDB container (with TLS and four accounts each) through
+            the agent's docker client; SQLite uses a temporary file on
+            the agent.
+          - A test skips when the agent lacks the engine's driver or
+            the suite has no server for it, rather than failing.
+          - On the localhost configuration the agent is the build
+            container. Name a host in conf/rcf.conf and the same tests
+            reach the databases from that host.
+    -->
+
+    <author mailto="maxim.menshikov@interpretica.io" />
+
+    <session track_conf="silent">
+        <!-- @page shell-ts-prologue Test Suite Prologue
+              @objective Prepare the test environment.
+
+              @par Scenario:
+              -# Start the PostgreSQL and MariaDB containers the tests
+                 connect to.
+        -->
+        <prologue>
+            <script name="prologue">
+                <objective>
+                    Prepare the test environment.
+                    @md
+                </objective>
+            </script>
+        </prologue>
+
+        <!-- @page shell-ts-epilogue Test Suite Epilogue
+              @objective Finalize the test environment.
+        -->
+        <epilogue>
+            <script name="epilogue">
+                <objective>
+                    Finalize the test environment.
+                    @md
+                </objective>
+            </script>
+        </epilogue>
+
+        <run>
+            <package name="sql" />
+        </run>
+    </session>
+</package>

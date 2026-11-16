@@ -1,0 +1,14 @@
+# External repositories the suite builds on. The Builder clones each into
+# build/ext-repos/<name>; conf/builder.conf.lock pins the commit built.
+#
+# To build against a local copy instead, set url to its path: git clones
+# a path as well as a URL, and run.sh mounts the parent directory into
+# the Docker container.
+repositories:
+  - name: tsf_sql
+    url: https://github.com/interpretica-io/tsf-sql.git
+    ref: main
+    libs:
+      - ta_sql
+      - rpcs_sql
+      - tapi_sql

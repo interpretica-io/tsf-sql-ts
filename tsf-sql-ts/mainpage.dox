@@ -1,0 +1,33 @@
+/** @mainpage
+
+This suite exercises tsf-sql - SQL database sessions from the Test
+Agent it runs on - against PostgreSQL, SQLite and MariaDB. One test
+matrix runs on all three: every test takes the engine as its
+@c backend parameter.
+
+- connection lifecycle and reconnection, CRUD, parameterised statements
+  with every value type (binary included), transactions with savepoints
+  and atomicity, normalised schema introspection;
+- result comparison (ordered, unordered, NULL semantics, tolerances)
+  and the database assertions, each also provoked to fail with its
+  verdict;
+- concurrency: the read anomalies and the lost update at each isolation
+  level, a deadlock, concurrent inserts and updates;
+- driver errors, a lost connection, deadlines, cancellation and the
+  release of resources after failures, a large result read in bounded
+  batches;
+- TLS and authentication failures, secrets kept out of messages, a
+  read-only security audit with a known-bad control, privilege
+  separation, SQL injection through an application input;
+- performance measurements, and the equivalence of results between two
+  engines.
+
+There is no mock: the prologue starts a PostgreSQL and a MariaDB
+container through the agent's docker client, with TLS and four accounts
+each, and SQLite works on a temporary file. The database client is a
+library linked into the agent's RPC server, driven in-process. A test
+skips when its engine is not there. Every test emits an MI measurement
+artifact with a line graph, so the HTML log and Bublik draw what was
+measured.
+
+*/

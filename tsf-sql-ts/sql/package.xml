@@ -1,0 +1,247 @@
+<?xml version="1.0" ?>
+<package version="1.0">
+    <description>SQL databases</description>
+    <author mailto="maxim.menshikov@interpretica.io" />
+    <session track_conf="silent">
+        <prologue><script name="prologue"><objective>Prepare the SQL group.</objective></script></prologue>
+        <epilogue><script name="epilogue"><objective>Finalize the SQL group.</objective></script></epilogue>
+        <run>
+            <script name="lifecycle"><objective>Connection lifecycle and reconnection.</objective></script>
+            <arg name="backend">
+                <value>sqlite</value>
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
+            <script name="crud"><objective>Create, read, update, delete.</objective></script>
+            <arg name="backend">
+                <value>sqlite</value>
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
+            <script name="params"><objective>Parameterised statements, typed and binary values.</objective></script>
+            <arg name="backend">
+                <value>sqlite</value>
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
+            <script name="transactions"><objective>Commit, rollback, savepoints, atomicity.</objective></script>
+            <arg name="backend">
+                <value>sqlite</value>
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
+            <script name="schema"><objective>Normalised schema introspection.</objective></script>
+            <arg name="backend">
+                <value>sqlite</value>
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
+            <script name="compare"><objective>Ordered and unordered result comparison, NULLs, tolerances.</objective></script>
+            <arg name="backend">
+                <value>sqlite</value>
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
+            <script name="assertions"><objective>Database assertions on a database in good order.</objective></script>
+            <arg name="backend">
+                <value>sqlite</value>
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
+            <script name="assert_violation"><objective>Each database assertion fails, with its verdict, on a broken property.</objective></script>
+            <arg name="backend">
+                <value>sqlite</value>
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+            <arg name="property">
+                <value>row_count</value>
+                <value>pk_unique</value>
+                <value>referential</value>
+                <value>not_null</value>
+                <value>schema</value>
+                <value>equal</value>
+                <value>number</value>
+                <value>atomic</value>
+            </arg>
+        </run>
+        <run>
+            <script name="isolation"><objective>Read anomalies at each transaction isolation level.</objective></script>
+            <arg name="backend">
+                <value>sqlite</value>
+            </arg>
+            <arg name="level">
+                <value>serializable</value>
+            </arg>
+        </run>
+        <run>
+            <script name="isolation"><objective>Read anomalies at each transaction isolation level.</objective></script>
+            <arg name="backend">
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+            <arg name="level">
+                <value>read_uncommitted</value>
+                <value>read_committed</value>
+                <value>repeatable_read</value>
+                <value>serializable</value>
+            </arg>
+        </run>
+        <run>
+            <script name="lost_update"><objective>The lost update at each transaction isolation level.</objective></script>
+            <arg name="backend">
+                <value>sqlite</value>
+            </arg>
+            <arg name="level">
+                <value>serializable</value>
+            </arg>
+        </run>
+        <run>
+            <script name="lost_update"><objective>The lost update at each transaction isolation level.</objective></script>
+            <arg name="backend">
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+            <arg name="level">
+                <value>read_committed</value>
+                <value>repeatable_read</value>
+                <value>serializable</value>
+            </arg>
+        </run>
+        <run>
+            <script name="deadlock"><objective>A deadlock is detected and exactly one session fails.</objective></script>
+            <arg name="backend">
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
+            <script name="concurrent"><objective>Concurrent inserts and updates add up.</objective></script>
+            <arg name="backend">
+                <value>sqlite</value>
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
+            <script name="errors"><objective>Driver errors are classified and leave the connection usable.</objective></script>
+            <arg name="backend">
+                <value>sqlite</value>
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
+            <script name="connloss"><objective>A lost connection is reported, and reconnection works.</objective></script>
+            <arg name="backend">
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
+            <script name="timeouts"><objective>Statement and lock deadlines, cancellation, resource cleanup.</objective></script>
+            <arg name="backend">
+                <value>sqlite</value>
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
+            <script name="large"><objective>A large result is read in bounded batches.</objective></script>
+            <arg name="backend">
+                <value>sqlite</value>
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
+            <script name="tls_auth"><objective>TLS and authentication, and their failures.</objective></script>
+            <arg name="backend">
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
+            <script name="secrets"><objective>Credentials do not appear in descriptions or messages.</objective></script>
+            <arg name="backend">
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
+            <script name="audit"><objective>Read-only security posture, with a known-bad control.</objective></script>
+            <arg name="backend">
+                <value>sqlite</value>
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+            <arg name="min_severity">
+                <value>high</value>
+            </arg>
+        </run>
+        <run>
+            <script name="privsep"><objective>Privilege separation and refused credentials, with controls.</objective></script>
+            <arg name="backend">
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
+            <script name="injection"><objective>SQL injection through an application input: pasted against bound.</objective></script>
+            <arg name="backend">
+                <value>sqlite</value>
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
+            <script name="perf"><objective>Latency, throughput, error and timeout rates.</objective></script>
+            <arg name="backend">
+                <value>sqlite</value>
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
+            <script name="equivalence"><objective>The same queries on two engines give equivalent results.</objective></script>
+            <arg name="backend">
+                <value>postgres</value>
+            </arg>
+            <arg name="reference">
+                <value>sqlite</value>
+            </arg>
+        </run>
+        <run>
+            <script name="equivalence"><objective>The same queries on two engines give equivalent results.</objective></script>
+            <arg name="backend">
+                <value>mariadb</value>
+            </arg>
+            <arg name="reference">
+                <value>sqlite</value>
+            </arg>
+        </run>
+        <run>
+            <script name="equivalence"><objective>The same queries on two engines give equivalent results.</objective></script>
+            <arg name="backend">
+                <value>postgres</value>
+            </arg>
+            <arg name="reference">
+                <value>mariadb</value>
+            </arg>
+        </run>
+    </session>
+</package>
