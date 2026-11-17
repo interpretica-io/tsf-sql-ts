@@ -46,6 +46,14 @@
             </arg>
         </run>
         <run>
+            <script name="aggregates"><objective>Aggregates, grouping, HAVING, window totals, NULL and empty input.</objective></script>
+            <arg name="backend">
+                <value>sqlite</value>
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
             <script name="compare"><objective>Ordered and unordered result comparison, NULLs, tolerances.</objective></script>
             <arg name="backend">
                 <value>sqlite</value>
@@ -147,6 +155,13 @@
         </run>
         <run>
             <script name="connloss"><objective>A lost connection is reported, and reconnection works.</objective></script>
+            <arg name="backend">
+                <value>postgres</value>
+                <value>mariadb</value>
+            </arg>
+        </run>
+        <run>
+            <script name="replication"><objective>A replica follows its primary, whole transactions only, and takes no writes.</objective></script>
             <arg name="backend">
                 <value>postgres</value>
                 <value>mariadb</value>

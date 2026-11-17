@@ -11,6 +11,9 @@ matrix runs on all three: every test takes the engine as its
 - result comparison (ordered, unordered, NULL semantics, tolerances)
   and the database assertions, each also provoked to fail with its
   verdict;
+- aggregates and grouping checked against values worked out by hand;
+  a replica that follows its primary, whole transactions only, and
+  refuses writes;
 - concurrency: the read anomalies and the lost update at each isolation
   level, a deadlock, concurrent inserts and updates;
 - driver errors, a lost connection, deadlines, cancellation and the

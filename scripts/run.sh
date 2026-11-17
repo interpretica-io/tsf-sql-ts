@@ -68,6 +68,7 @@ if [ "$is_docker" == "1" ] ; then
     # among them, go from this environment into the container's and
     # appear on no command line.
     for ts_var in TSF_SQL_PG_HOST TSF_SQL_PG_PORT TSF_SQL_MY_HOST \
+                  TSF_SQL_PG_REPLICA_PORT TSF_SQL_MY_REPLICA_PORT \
                   TSF_SQL_MY_PORT TSF_SQL_SERVERS TSF_SQL_PG_IMAGE \
                   TSF_SQL_MY_IMAGE ; do
         if [ -n "${!ts_var:-}" ] ; then

@@ -1,10 +1,10 @@
 # Copyright (C) 2026 Interpretica Unipessoal Lda
 tests = [ 'prologue', 'epilogue', 'lifecycle', 'crud', 'params',
-          'transactions', 'schema', 'compare', 'assertions',
+          'transactions', 'schema', 'aggregates', 'compare', 'assertions',
           'assert_violation', 'isolation', 'lost_update', 'deadlock',
-          'concurrent', 'errors', 'connloss', 'timeouts', 'large',
-          'tls_auth', 'secrets', 'audit', 'privsep', 'injection', 'perf',
-          'equivalence' ]
+          'concurrent', 'errors', 'connloss', 'replication', 'timeouts',
+          'large', 'tls_auth', 'secrets', 'audit', 'privsep', 'injection',
+          'perf', 'equivalence' ]
 foreach test : tests
     test_exe = test
     test_c = test + '.c'

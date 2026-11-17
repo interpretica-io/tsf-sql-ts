@@ -156,6 +156,38 @@ tsapi_sql_sess_config(const tsapi_sql_sess *sess, tsapi_sql_role role,
 }
 
 /* See description in tsapi_sql.h */
+bool
+tsapi_sql_sess_has_replica(const tsapi_sql_sess *sess)
+{
+    bool pg = sess->engine == TAPI_SQL_ENGINE_POSTGRES;
+
+    if (sess->engine == TAPI_SQL_ENGINE_SQLITE)
+        return false;
+
+    /* External servers: a replica is there when its port is named. */
+    if (strcmp(setting("TSF_SQL_SERVERS", ""), "external") == 0)
+        return *setting(pg ? "TSF_SQL_PG_REPLICA_PORT" :
+                             "TSF_SQL_MY_REPLICA_PORT", "") != '\0';
+
+    return agent_sh(sess->pco, 10000,
+                    "test -f " TSAPI_SQL_WORKDIR "/replicas") == 0;
+}
+
+/* See description in tsapi_sql.h */
+void
+tsapi_sql_sess_replica_config(const tsapi_sql_sess *sess,
+                              tsapi_sql_role role, tapi_sql_config *cfg)
+{
+    bool pg = sess->engine == TAPI_SQL_ENGINE_POSTGRES;
+
+    tsapi_sql_sess_config(sess, role, cfg);
+    cfg->port = atoi(setting(pg ? "TSF_SQL_PG_REPLICA_PORT" :
+                                  "TSF_SQL_MY_REPLICA_PORT",
+                             pg ? "55434" : "53308"));
+    cfg->tls_mode = TAPI_SQL_TLS_DISABLE;
+}
+
+/* See description in tsapi_sql.h */
 te_errno
 tsapi_sql_sess_connect(const tsapi_sql_sess *sess, tsapi_sql_role role,
                        tapi_sql_conn **conn)
@@ -259,6 +291,7 @@ servers_cmd(const char *action, te_string *cmd)
 {
     static const char *const vars[] = {
         "TSF_SQL_SERVERS", "TSF_SQL_PG_PORT", "TSF_SQL_MY_PORT",
+        "TSF_SQL_PG_REPLICA_PORT", "TSF_SQL_MY_REPLICA_PORT",
         "TSF_SQL_PG_IMAGE", "TSF_SQL_MY_IMAGE",
     };
     const char              *top = getenv("TS_TOPDIR");

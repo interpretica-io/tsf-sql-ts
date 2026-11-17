@@ -101,6 +101,30 @@ extern void tsapi_sql_sess_config(const tsapi_sql_sess *sess,
                                   tsapi_sql_role role, tapi_sql_config *cfg);
 
 /**
+ * Does the suite have a replica of the session's server? (The prologue
+ * starts one for PostgreSQL and one for MariaDB.) A replication test
+ * without one skips.
+ *
+ * @param sess  Session (the engine already selected).
+ *
+ * @return @c true when there is a replica to connect to.
+ */
+extern bool tsapi_sql_sess_has_replica(const tsapi_sql_sess *sess);
+
+/**
+ * Connection parameters of an account on the replica of the session's
+ * server: the same accounts (they arrive by replication), another
+ * port, no TLS.
+ *
+ * @param[in]  sess  Session.
+ * @param[in]  role  Account.
+ * @param[out] cfg   Parameters.
+ */
+extern void tsapi_sql_sess_replica_config(const tsapi_sql_sess *sess,
+                                          tsapi_sql_role role,
+                                          tapi_sql_config *cfg);
+
+/**
  * Connect as an account of the session's engine.
  *
  * @param[in]  sess  Session.
